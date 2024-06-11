@@ -1,0 +1,72 @@
+<html>
+    <head>
+        <title>OpenCC Rust Demo</title>
+        <style>
+            body {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin: 0;
+                padding: 20px;
+                font-family: Arial, sans-serif;
+            }
+    
+            .container {
+                display: flex;
+                align-items: flex-start;
+                margin-bottom: 20px;
+            }
+
+            .container > * {
+                margin-right: 10px;
+            }
+
+            .textarea-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin: 10px;
+            }
+    
+            textarea {
+                width: 300px;
+                height: 150px;
+                resize: both;
+            }
+
+            label {
+                margin-top: 5px;
+                font-weight: bold;
+            }
+
+            #convert {
+                margin-top: 90px;
+                margin-right: 0px;
+            }
+
+        </style>
+        <script type="module">
+            import { converter } from "./js/opencc-rust.mjs"
+
+            window.convert = async function() {
+                const text = document.getElementById("text").value
+                const converted = await converter.convert(text);
+
+                document.getElementById("result").value = converted;
+            }
+        </script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="textarea-container">
+                <label for="text">Origin</label>
+                <textarea id="text"></textarea>
+            </div>
+            <button onclick="convert()" id="convert">Convert</button>
+            <div class="textarea-container">
+                <label for="result">Translated</label>
+                <textarea id="result" readonly></textarea>
+            </div>
+        </div>
+    </body>
+</html>
