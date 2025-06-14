@@ -1,0 +1,41 @@
+{
+  "name": "opencc-rust",
+  "version": "1.1.2",
+  "description": "OpenCC Rust WebAssembly/JS Converter Library",
+  "main": "dist/opencc-rust.mjs",
+  "module": "dist/opencc-rust.mjs",
+  "exports": {
+    ".": {
+      "import": "./dist/opencc-rust.mjs",
+      "require": "./dist/opencc-rust.mjs",
+      "types": "./dist/opencc-rust.d.ts"
+    }
+  },
+  "files": [
+    "dist/"
+  ],
+  "keywords": [
+    "opencc",
+    "rust",
+    "wasm",
+    "converter",
+    "chinese"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lekoOwO/opencc-rust-lib"
+  },
+  "scripts": {
+    "build:umd": "rollup -c",
+    "build:esm": "npx cpx \"src/**/*\" dist/",
+    "build": "npm run build:esm && npm run build:umd"
+  },
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "cpx": "^1.5.0",
+    "rollup": "^4.43.0"
+  },
+  "types": "dist/opencc-rust.d.ts"
+}

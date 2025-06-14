@@ -46,12 +46,21 @@
 
         </style>
         <script type="module">
-            import { converter } from "./js/opencc-rust.mjs"
+            import { initOpenccRust, getConverter } from "./dist/opencc-rust.mjs";
+
+            let converter;
+            (async () => {
+                await initOpenccRust();
+                converter = getConverter();
+            })();
 
             window.convert = async function() {
-                const text = document.getElementById("text").value
+                if (!converter) {
+                    alert("OpenCC 尚未初始化完成，請稍後再試。");
+                    return;
+                }
+                const text = document.getElementById("text").value;
                 const converted = await converter.convert(text);
-
                 document.getElementById("result").value = converted;
             }
         </script>

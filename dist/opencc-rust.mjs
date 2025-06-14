@@ -1,4 +1,4 @@
-import { Converter, ConverterBuild, init } from "./opencc-rust-lib.mjs"
+import { Converter, ConverterBuild, init } from "./opencc-rust-lib.mjs";
 
 const RESOURCES = {
     opencc_wasm: "https://cdn.jsdelivr.net/gh/polyproline/opencc-wasm@main/opencc_gc.wasm",
@@ -47,21 +47,29 @@ const CONVERTION_MAP = {
 
 const SELECTED_DICT = CONVERTION_MAP.ToTaiwan;
 
-const wasm = await fetch(RESOURCES.opencc_wasm);
-await init(wasm);
+let _converter = null;
 
-const build = ConverterBuild.new();
-for (let dict of SELECTED_DICT) {
-    if (Array.isArray(dict)) {
-        for(let d of dict) {
-            build.adddict(await fetch(RESOURCES[d]).then(response => response.text()));
+async function initOpenccRust() {
+    const wasm = await fetch(RESOURCES.opencc_wasm);
+    await init(wasm);
+
+    const build = ConverterBuild.new();
+    for (let dict of SELECTED_DICT) {
+        if (Array.isArray(dict)) {
+            for(let d of dict) {
+                build.adddict(await fetch(RESOURCES[d]).then(response => response.text()));
+            }
+        } else {
+            build.adddict(await fetch(RESOURCES[dict]).then(response => response.text()));
         }
-    } else {
-        build.adddict(await fetch(RESOURCES[dict]).then(response => response.text()));
+        build.group();
     }
-    build.group();
+    _converter = build.build();
 }
 
-const converter = build.build();
+function getConverter() {
+    if (!_converter) throw new Error("You must call and await initOpenccRust() first.");
+    return _converter;
+}
 
-export { converter };
+export { initOpenccRust, getConverter };
