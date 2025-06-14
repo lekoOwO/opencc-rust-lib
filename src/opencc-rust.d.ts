@@ -9,7 +9,7 @@ export interface ConverterBuild {
     build(): Converter;
 }
 
-export function init(input: Response | ArrayBuffer | WebAssembly.Module): Promise<any>;
+export function init(input: Response | BufferSource): Promise<any>;
 
 export function initOpenccRust(): Promise<void>;
 export function getConverter(): Converter;

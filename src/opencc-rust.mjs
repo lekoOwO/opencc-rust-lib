@@ -1,4 +1,4 @@
-import { Converter, ConverterBuild, init } from "./opencc-rust-lib.mjs";
+import { ConverterBuild, init } from "./opencc-rust-lib.mjs";
 
 const RESOURCES = {
     opencc_wasm: "https://cdn.jsdelivr.net/gh/polyproline/opencc-wasm@main/opencc_gc.wasm",

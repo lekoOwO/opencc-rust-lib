@@ -77,8 +77,7 @@ function getInt32Memory0() {
     }
     return cachegetInt32Memory0;
 }
-/**
-*/
+
 class Converter {
 
     static __wrap(ptr) {
@@ -113,14 +112,12 @@ class Converter {
             wasm.__wbindgen_free(r0, r1);
         }
     }
-    /**
-    */
+
     delete() {
         wasm.converter_delete(this.ptr);
     }
 }
-/**
-*/
+
 class ConverterBuild {
 
     static __wrap(ptr) {
@@ -151,8 +148,7 @@ class ConverterBuild {
         var len0 = WASM_VECTOR_LEN;
         wasm.converterbuild_adddict(this.ptr, ptr0, len0);
     }
-    /**
-    */
+    
     group() {
         wasm.converterbuild_group(this.ptr);
     }
