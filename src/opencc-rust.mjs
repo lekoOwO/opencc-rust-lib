@@ -49,6 +49,17 @@ const SELECTED_DICT = CONVERTION_MAP.ToTaiwan;
 
 let _converter = null;
 
+function normalizeDictionaryData(data) {
+    return data
+        .split(/\r?\n/)
+        .filter(line => line.length > 0 && !line.startsWith("#"))
+        .join("\n");
+}
+
+async function fetchDictionary(name) {
+    return normalizeDictionaryData(await fetch(RESOURCES[name]).then(response => response.text()));
+}
+
 async function initOpenccRust() {
     const wasm = await fetch(RESOURCES.opencc_wasm);
     await init(wasm);
@@ -57,10 +68,10 @@ async function initOpenccRust() {
     for (let dict of SELECTED_DICT) {
         if (Array.isArray(dict)) {
             for(let d of dict) {
-                build.adddict(await fetch(RESOURCES[d]).then(response => response.text()));
+                build.adddict(await fetchDictionary(d));
             }
         } else {
-            build.adddict(await fetch(RESOURCES[dict]).then(response => response.text()));
+            build.adddict(await fetchDictionary(dict));
         }
         build.group();
     }
