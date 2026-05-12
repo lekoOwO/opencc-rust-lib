@@ -49,10 +49,16 @@ const SELECTED_DICT = CONVERTION_MAP.ToTaiwan;
 
 let _converter = null;
 
+const DICTIONARY_KEY_PATTERN = /^\p{Script=Han}+$/u;
+
 function normalizeDictionaryData(data) {
     return data
         .split(/\r?\n/)
-        .filter(line => line.length > 0 && !line.startsWith("#"))
+        .filter(line => {
+            if (line.length === 0 || line.startsWith("#")) return false;
+            const key = line.split("\t", 1)[0];
+            return DICTIONARY_KEY_PATTERN.test(key);
+        })
         .join("\n");
 }
 
